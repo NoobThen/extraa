@@ -83,7 +83,7 @@ client.on('message', msg => {
 		if (!msg.guild.member(msg.author).hasPermission("BAN_MEMBERS")) {
 			msg.author.sendMessage('Aleyküm selam,  hoş geldin ^^'); 
 		} else {
-		msg.reply('Aleyküm selam, hoş geldin ^^');
+		msg.reply('Ve Aleyküm Selam Canım Hoşgeldin');
 		}
 	}
 });
