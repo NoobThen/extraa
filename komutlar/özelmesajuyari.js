@@ -31,8 +31,8 @@ message.channel.send(`:white_check_mark: Mesaj basariyla **` + client.guilds.red
 
 exports.conf = {
   enabled: true,
-  guildOnly: true,
-  aliases: ['duyurla'],
+  guildOnly: false,
+  aliases: ['duyuru'],
   permLevel: 4
 };
 
