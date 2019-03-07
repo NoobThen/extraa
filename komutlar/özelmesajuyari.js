@@ -1,43 +1,39 @@
 const Discord = require('discord.js');
+const ayarlar = require('../ayarlar.json');
 
-exports.run = (client, message, args) => {
+var prefix = ayarlar.prefix;
 
-    if (!message.guild) {
-    const ozelmesajuyari = new Discord.RichEmbed()
-    .setColor(0x2488E7)
-    .setTimestamp()
-    .setAuthor(message.author.username, message.author.avatarURL)
-    .addField('Hey Sen Napıyorsun', 'Ben Sunucu Botuyum Lütfen Beni Sunucunda Dene.')
-    return message.author.sendEmbed(ozelmesajuyari); }
-
-  let mesaj = args.slice(0).join(' ');
-if (mesaj.length < 1) return message.channel.send('Birşey Yazmalısınız');
-
-  message.delete();
-
-  console.log(`Duyuru: "${message.author.username}#${message.author.discriminator}" "${mesaj}"`);
-
-      const mesajat = new Discord.RichEmbed()
-      .setColor('RANDOM')
-      .setDescription('' + mesaj + '')
-
-      client.users.forEach(u => {
-u.sendEmbed(mesajat)
-})
-
-message.channel.send(`:white_check_mark: Mesaj basariyla **` + client.guilds.reduce((a, b) => a + b.memberCount, 0).toLocaleString() + `** kullanıcıya gonderildi.`);
-
+exports.run = (client, message, params) => {
+  const embedyardim = new Discord.RichEmbed()
+  .setTitle("Sistem Tarafından Saptanan Duyurular")
+  .setDescription('')
+  .setColor(0x00ffff)
+  .addField("**[BİLGİ]**",'**S-Güvenlik sunucu üzerine bağlı olmadığından kısa bir süreliğine 7/24 aktif durumda olamayacaktır.**')
+  .addField("**[15.12.2018] [22:26]**",'Yeni komutlar eklenmeye başlanmıştır. Zaman zaman !yardım listesinde yeni komutlar görebilirsiniz.')
+  .addField("**[15.12.2018] [23:30]**",'Komutların bir çok dil üzerinden kullanımı sağlanabilmesi için çalışmalara başladı')
+  .addField("**[16.12.2018] [04:53]**", 'Müzik desteği için gerekli çalışmalara başlanıldı.')
+  if (!params[0]) {
+    const commandNames = Array.from(client.commands.keys());
+    const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
+    message.channel.send(embedyardim);
+  } else {
+    let command = params[0];
+    if (client.commands.has(command)) {
+      command = client.commands.get(command);
+      message.author.send('asciidoc', `= ${command.help.name} = \n${command.help.description}\nDoğru kullanım: ` + prefix + `${command.help.usage}`);
+    }
+  }
 };
 
 exports.conf = {
   enabled: true,
   guildOnly: false,
-  aliases: ['duyuru'],
-  permLevel: 4
+  aliases: ['duyuru','duyurular'],
+  permLevel: 0
 };
 
 exports.help = {
-  name: 'duyur',
-  description: 'İstediğiniz şeyi bota duyurtur.',
-  usage: 'duyuru [duyurmak istediğiniz şey]'
+  name: 'duyuru',
+  description: 'Bot tarafından yapılan duruyuları görebilirsiniz',
+  usage: 'duyuru'
 };
